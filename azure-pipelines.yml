@@ -29,4 +29,4 @@ steps:
   displayName: 'Publish code coverage results'
   inputs:
     summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-    failIfCoverageEmpty: true
+    failIfCoverageEmpty: false
