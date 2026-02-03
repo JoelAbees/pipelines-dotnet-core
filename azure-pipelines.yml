@@ -7,15 +7,32 @@
 trigger:
 - master
 
+
 strategy:
   matrix:
-    linux:
-      imageName: "ubuntu-latest"
-    mac:
-      imageName: "macOS-latest"
-    windows:
-      imageName: "windows-latest"
+    linux_net8:
+      imageName: 'ubuntu-latest'
+      dotnetVersion: '8.x'
+    linux_net9:
+      imageName: 'ubuntu-latest'
+      dotnetVersion: '9.x'
+
+    mac_net8:
+      imageName: 'macOS-latest'
+      dotnetVersion: '8.x'
+    mac_net9:
+      imageName: 'macOS-latest'
+      dotnetVersion: '9.x'
+
+    windows_net8:
+      imageName: 'windows-latest'
+      dotnetVersion: '8.x'
+    windows_net9:
+      imageName: 'windows-latest'
+      dotnetVersion: '9.x'
+
   maxParallel: 3
+
 
 pool:
   vmImage: $(imageName)
@@ -26,6 +43,15 @@ variables:
 
 
 steps:
+
+
+- task: UseDotNet@2
+  displayName: 'Use .NET SDK $(dotnetVersion)'
+  inputs:
+    packageType: 'sdk'
+    version: '$(dotnetVersion)'
+
+
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
