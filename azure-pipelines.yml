@@ -1,3 +1,4 @@
+
 # ASP.NET Core
 # Build and test ASP.NET Core projects targeting .NET Core.
 # Add steps that run tests, create a NuGet package, deploy, and more:
@@ -15,3 +16,18 @@ variables:
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+
+# Run tests and generate coverage.cobertura.xml (XPlat Code Coverage)
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test (with XPlat Code Coverage)'
+  inputs:
+    command: 'test'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
+    publishTestResults: true
+
+# Publish Cobertura coverage to the Code Coverage tab
+- task: PublishCodeCoverageResults@2
+  displayName: 'Publish code coverage results'
+  inputs:
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+    failIfCoverageEmpty: true
