@@ -13,11 +13,11 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
+
 steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-# Run tests and generate coverage.cobertura.xml (XPlat Code Coverage)
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test (with XPlat Code Coverage)'
   inputs:
@@ -25,7 +25,6 @@ steps:
     arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage"'
     publishTestResults: true
 
-# Publish Cobertura coverage to the Code Coverage tab
 - task: PublishCodeCoverageResults@2
   displayName: 'Publish code coverage results'
   inputs:
